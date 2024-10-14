@@ -1,0 +1,4 @@
+RewriteEngine On #Habilitar a configuração do Apache
+RewriteCond %{REQUEST_FILENAME} !-f #Limitar acesso à arquivos físicos
+RewriteRule ^(.*)$ index.php #Redirecionar todas as requisições para index.php
+
