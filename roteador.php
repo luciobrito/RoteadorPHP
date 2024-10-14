@@ -11,13 +11,16 @@ class Roteador{
         else http_response_code(405);
     }
     public function delete($url, $arquivo){
-
+        if($_SERVER['REQUEST_METHOD'] == 'DELETE') $this->router($url, $arquivo);
+        else http_response_code(405);
     }
     
-    protected function router($url, $arquivo){
+    protected function router($rota, $arquivo){
         //TODO: Colocar suporte aos parâmetros das rotas.
-        $request = $_SERVER['REQUEST_URI'];
-        if($url == $request) include_once __DIR__ . "/$arquivo";
+        $request = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        //Remove a query da url
+        $valores = explode("?",$request);
+        if($rota == $valores[0]) include_once __DIR__ . "/$arquivo";
     }
 
 }
