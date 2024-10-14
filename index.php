@@ -4,5 +4,5 @@ include_once "roteador.php";
 
 //Necessário colocar '/' antes da rota
 $roteador = new Roteador();
-$roteador->get('/home', 'home.php');
-$roteador->get('/user', 'user.php');
+$roteador->get('/home', 'teste/home.php');
+$roteador->get('/user', 'teste/user.php');

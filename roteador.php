@@ -15,6 +15,7 @@ class Roteador{
     }
     
     protected function router($url, $arquivo){
+        //TODO: Colocar suporte aos parâmetros das rotas.
         $request = $_SERVER['REQUEST_URI'];
         if($url == $request) include_once __DIR__ . "/$arquivo";
     }
