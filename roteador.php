@@ -44,14 +44,30 @@ class Roteador{
         $request = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
         $valores = explode("?",$request);
         $lista_urls = $this->filtrarRotas($this->rotas_validas, "uri");
+        $lista_metodos = $this->filtrarRotas($this->rotas_validas, "metodo");
+        $lista_arquivos = $this->filtrarRotas($this->rotas_validas, "arquivo");
         if(in_array($valores[0], $lista_urls)){
             $indice = null;
             for($i = 0; $i < sizeof($this->rotas_validas); $i++){
                 //Se o metodo for igual a url salvar o indice para retornar os valores
                 //Se a url existir mas o metodo não for igual, retornar metodo não permitido
+                if($lista_urls[$i] == $valores[0] && $lista_metodos[$i] == $_SERVER['REQUEST_METHOD']){
+                    $indice = $i;
+                    break;
+                }
+            }
+            if($indice !== null){
+                include_once __DIR__ . "/$lista_arquivos[$indice]";
+            }
+            else if($indice === null) {
+            echo "405 - Method not allowed";
+            http_response_code(405);
             }
         }
-        else include_once __DIR__ . "/not_found.php";
+        else {
+            include_once __DIR__ . "/not_found.php";
+            http_response_code(404);
+        }
     }
     private function filtrarRotas($rotas,$valor){
         $valores = array();
